@@ -1,0 +1,4 @@
+*.suo
+/src/client/bin/
+/src/client/obj/
+

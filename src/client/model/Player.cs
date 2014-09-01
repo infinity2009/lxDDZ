@@ -22,6 +22,8 @@ namespace lxDDZ.model
     {
         public PlayerStatus Status { get; set; }
 
+        public string Name { get; set; }
+
         public CardBunch HoldingCards { get; set; }
 
         public CardBunch ShowingCards { get; set; }
@@ -39,7 +41,7 @@ namespace lxDDZ.model
             this.Character = Character.Farmer;
         }
 
-        public void enthrone()
+        public void preemptive()
         {
             this.Character = Character.Landlord;
         }
@@ -81,7 +83,6 @@ namespace lxDDZ.model
         //    }
         //}
 
-
         public PlayerRound()
         {
             this.Count = 3;
@@ -90,6 +91,10 @@ namespace lxDDZ.model
             {
                 _players[i] = new Player();
             }
+
+            _players[0].Name = "Computer1";
+            _players[1].Name = "Computer2";
+            _players[2].Name = "Player";
 
             for (int i = 0; i < this.Count; i++)
             {

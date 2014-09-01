@@ -7,11 +7,20 @@ using lxDDZ.model;
 
 namespace lxDDZ.controller
 {
-    public class GameController
+    public enum GameStatus
+    {
+        Ready = 1,
+        Playing = 2,
+        Over = 3,
+    }
+
+    public class GameController : IActionDelegate
     {
         public int ThinkSeconds { get; set; }
 
         public PlayerRound PlayerRound { get; set; }
+
+        public GameStatus Status { get; set; }
 
         public GameController()
         {
@@ -40,7 +49,17 @@ namespace lxDDZ.controller
 
             while (!this.GameOver)
             {
-                ;
+                switch (this.Status)
+                {
+                    case GameStatus.Ready:
+                        break;
+                    case GameStatus.Playing:
+                        break;
+                    case GameStatus.Over:
+                        break;
+                    default:
+                        break;
+                }
             }
         }
 
@@ -54,6 +73,31 @@ namespace lxDDZ.controller
         void _deal()
         {
             this.PlayerRound.Current = this.PlayerRound[0];
+        }
+
+        public bool canShowCard()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void showCard()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void hint()
+        {
+            throw new NotImplementedException();
+        }
+        
+        public void pass()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void preemptive()
+        {
+            throw new NotImplementedException();
         }
     }
 }

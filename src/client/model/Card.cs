@@ -6,13 +6,93 @@ using System.Threading.Tasks;
 
 namespace lxDDZ.model
 {
+    public enum Suit
+    {
+        None = 0,
+
+        Spade = 1,
+        Heart,
+        Diamond,
+        Club,
+    }
+
+    public enum Number
+    {
+        Three = 3,
+        Four,
+        Five,
+        Six,
+        Seven,
+        Eight,
+        Nine,
+        Ten,
+        Jack,
+        Queen,
+        King,
+        Ace,
+        Two,
+        SmallJoker,
+        BigJoker,
+    }
+
     public class Card
     {
+        public Suit Suit { get; set; }
 
+        public Number Number { get; set; }
     }
 
     public class CardBunch : List<Card>
     {
+        public static CardBunch GenerateFullCard()
+        {
+            CardBunch result = new CardBunch();
 
+            for (Suit i = Suit.Spade; i <= Suit.Club; i++)
+            {
+                for (Number j = Number.Three; j <= Number.Two; j++)
+                {
+                    result.Add(new Card() { Suit = i, Number = j });
+                }
+            }
+            result.Add(new Card() { Suit = Suit.None, Number = Number.SmallJoker });
+            result.Add(new Card() { Suit = Suit.None, Number = Number.BigJoker });
+
+            return result;
+        }
+
+        public new void Sort()
+        {
+            base.Sort((c1, c2) =>
+            {
+                if (c1.Number > c2.Number)
+                    return 1;
+                else if (c1.Number < c2.Number)
+                    return -1;
+                else
+                    return 0;
+            });
+        }
+
+        public Card takeOneCard()
+        {
+            if (this.Count <= 0)
+                return null;
+            Random r = new Random();
+            int index = r.Next(this.Count - 1);
+            return this.takeOneCard(index);
+        }
+
+        public Card takeOneCard(int index)
+        {
+            try
+            {
+                return this[index];
+            }
+            finally
+            {
+                this.RemoveAt(index);
+            }
+        }
     }
 }

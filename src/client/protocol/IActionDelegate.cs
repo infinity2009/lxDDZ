@@ -10,12 +10,12 @@ namespace lxDDZ
     {
         bool canShowCard();
 
-        void showCard();
+        void onShowCard();
 
-        void hint();
+        void onHint();
 
-        void pass();
+        void onPass();
 
-        void preemptive();
+        void onPreempt();
     }
 }

@@ -53,6 +53,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CardUserControl.xaml.cs">
+      <DependentUpon>CardUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="protocol\IGameView.cs" />
+    <Page Include="CardUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

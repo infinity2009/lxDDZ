@@ -1,6 +1,7 @@
 ﻿<Window x:Class="lxDDZ.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:lxDDZ"
         Title="MainWindow" Height="400" Width="600">
     <Grid>
         <Grid.RowDefinitions>
@@ -16,5 +17,18 @@
             <ColumnDefinition Width="2*"></ColumnDefinition>
             <ColumnDefinition Width="2*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
+
+        <TextBlock x:Name="tbPlayer1" Grid.Row="0" Grid.Column="0" Background="AliceBlue" HorizontalAlignment="Left" Width="118">Player 1</TextBlock>
+        <TextBlock x:Name="tbPlayer2" Grid.Row="1" Grid.Column="0" Background="AntiqueWhite">Player 2</TextBlock>
+        <TextBlock x:Name="tbPlayer3" Grid.Row="0" Grid.Column="4" Background="Aqua">Player 3</TextBlock>
+
+        <Button Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" Click="HintBtn_Click">Hint</Button>
+        <Button Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Bottom" Click="PassBtn_Click">Pass</Button>
+        <Button Grid.Row="1" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Bottom" Click="ShowBtn_Click">Show</Button>
+
+        <Grid x:Name="cardGrid" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="5">
+            <local:CardUserControl>
+            </local:CardUserControl>
+        </Grid>
     </Grid>
 </Window>

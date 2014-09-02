@@ -24,34 +24,59 @@ namespace lxDDZ.model
 
         public string Name { get; set; }
 
+        //! 手里握着的牌
         public CardBunch HoldingCards { get; set; }
 
+        //! 刚刚打出的牌
         public CardBunch ShowingCards { get; set; }
 
+        //! 准备出的牌
+        public CardBunch HangingCards { get; set; }
+
+        //! 牌是否出完
         public bool Finished { get; set; }
 
+        //! 角色 (地主/农民)
         public Character Character { get; set; }
 
+        //! 上家
         public Player LeftPlayer { get; set; }
 
+        //! 下家
         public Player RightPlayer { get; set; }
+
+        //! 是否先手
+        public bool Upper { get; set; }
 
         public Player()
         {
             this.Character = Character.Farmer;
+
+            this.HangingCards = new CardBunch();
+            this.HoldingCards = new CardBunch();
+            this.ShowingCards = new CardBunch();
         }
 
-        public void preemptive()
+        //! 当地主
+        public void preempt()
         {
             this.Character = Character.Landlord;
         }
 
-        public void showCard() { }
+        //! 出牌
+        public void showCard()
+        {
+            this.LeftPlayer.Upper = false;
+            this.Upper = true;
+        }
 
+        //! 过牌/不当地主
         public void pass() { }
 
+        //! 胜利
         public void win() { }
 
+        //! 失败
         public void lose() { }
     }
 
@@ -74,14 +99,11 @@ namespace lxDDZ.model
             }
         }
 
-        //IEnumerable<Player> Excludes(Player player)
-        //{
-        //    for (int i = 0; i < this.Count; i++)
-        //    {
-        //        if (_players[i] != player)
-        //            yield return _players[i];
-        //    }
-        //}
+        public Player Owner
+        {
+            get;
+            private set;
+        }
 
         public PlayerRound()
         {
@@ -92,17 +114,18 @@ namespace lxDDZ.model
                 _players[i] = new Player();
             }
 
-            _players[0].Name = "Computer1";
-            _players[1].Name = "Computer2";
-            _players[2].Name = "Player";
-
             for (int i = 0; i < this.Count; i++)
             {
-                int left = (i - 1) < 0 ? this.Count : i - 1;
+                int left = (i - 1) < 0 ? this.Count - 1 : i - 1;
                 int right = (i + 1) >= this.Count ? 0 : i + 1;
                 _players[i].LeftPlayer = _players[left];
                 _players[i].RightPlayer = _players[right];
             }
+
+            _players[0].Name = "Computer1";
+            _players[1].Name = "Computer2";
+            _players[2].Name = "Player";
+            this.Owner = _players[2];
         }
 
         public Player this[int index]

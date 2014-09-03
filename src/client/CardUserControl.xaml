@@ -3,16 +3,20 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" 
-             Background="White"
-             d:DesignHeight="150" d:DesignWidth="120">
+             mc:Ignorable="d"
+             Background="GreenYellow"
+             BorderBrush="BlueViolet"
+             BorderThickness="1"
+             Height="90"
+             Width="70"
+             >
     <UserControl.Resources>
         <Style TargetType="TextBlock">
-            <Setter Property="FontSize" Value="18"></Setter>
+            <Setter Property="FontSize" Value="14"></Setter>
         </Style>
     </UserControl.Resources>
-    <StackPanel Margin="10">
-        <TextBlock Foreground="Red">K</TextBlock>
-        <TextBlock>♠</TextBlock>
+    <StackPanel Margin="5">
+        <TextBlock x:Name="tbNumber">K</TextBlock>
+        <TextBlock x:Name="tbSuit">♠</TextBlock>
     </StackPanel>
 </UserControl>

@@ -106,10 +106,9 @@ namespace lxDDZ.controller
             do
             {
                 Card c = full.takeOneCard();
+                this.PlayerRound[i].HoldingCards.Add(c);
                 if (full.Count <= 3 || c == null)
                     break;
-
-                this.PlayerRound[i].HoldingCards.Add(c);
                 i++;
                 if (i >= this.PlayerRound.Count)
                     i = 0;
@@ -177,6 +176,15 @@ namespace lxDDZ.controller
             this.CountDownTimer.Enabled = false;
             this.CountDown = this.ThinkSeconds;
             this.CountDownTimer.Enabled = true;
+        }
+        public void onClickCard(Card card)
+        {
+            if (this.PlayerRound.Owner.HangingCards.Contains(card))
+                this.PlayerRound.Owner.HangingCards.Remove(card);
+            else
+                this.PlayerRound.Owner.HangingCards.Add(card);
+
+            this.GameView.refreshPlayer(this.PlayerRound, this.CountDown);
         }
     }
 }

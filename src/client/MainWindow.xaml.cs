@@ -86,16 +86,34 @@ namespace lxDDZ
 
         void _renderCard(PlayerRound playerRound)
         {
-            foreach (var item in playerRound.Current.HoldingCards)
+            int count = playerRound.Owner.HoldingCards.Count;
+            cardSeqGrid.Children.Clear();
+            for (int i = count - 1; i >= 0; i--)
             {
+                var item = playerRound.Owner.HoldingCards[i];
+
                 CardUserControl displayCard = new CardUserControl();
-                //cardGrid.Children.Add(displayCard);
+                displayCard.Margin = new Thickness((count - i - 1) * 30, 0, 0, 0);
+                displayCard.HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
+                displayCard.MouseDown += displayCard_MouseDown;
+                displayCard.Card = item;
+
+                if (playerRound.Owner.HangingCards.Contains(item))
+                    displayCard.VerticalAlignment = System.Windows.VerticalAlignment.Top;
+                else
+                    displayCard.VerticalAlignment = System.Windows.VerticalAlignment.Bottom;
+
+                cardSeqGrid.Children.Add(displayCard);
             }
         }
 
-        void _renderCard(int x, int y, Card card)
+        void displayCard_MouseDown(object sender, MouseButtonEventArgs e)
         {
-
+            CardUserControl cardControl = e.Source as CardUserControl;
+            if (cardControl != null)
+            {
+                this.ActionDelegate.onClickCard(cardControl.Card);
+            }
         }
     }
 }

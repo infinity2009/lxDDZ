@@ -18,7 +18,7 @@ namespace lxDDZ.model
 
     public enum Number
     {
-        Three = 3,
+        Three = 0,
         Four,
         Five,
         Six,
@@ -73,13 +73,17 @@ namespace lxDDZ.model
                     return 0;
             });
         }
+        Random r = new Random();
 
         public Card takeOneCard()
         {
             if (this.Count <= 0)
                 return null;
-            Random r = new Random();
-            int index = r.Next(this.Count - 1);
+
+            int index = 0;
+            if (this.Count > 1)
+                index = r.Next(1, 1000) % (this.Count - 1);
+
             return this.takeOneCard(index);
         }
 

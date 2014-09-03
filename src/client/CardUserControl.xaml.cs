@@ -24,23 +24,50 @@ namespace lxDDZ
         public CardUserControl()
         {
             InitializeComponent();
-            this.DataContext = this;
         }
 
-        public Color Color
+        string[] numberStr = new string[]{
+            "3","4","5","6","7","8","9","10",
+            "J","Q","K","A",
+            "2",
+            "J\nO\nK\nE\nR","J\nO\nK\nE\nR",
+        };
+
+        string[] suitStr = new string[] {
+            "",
+            "♠","♥","♦","♣",
+        };
+
+        public Card Card
         {
-            get
+            get { return (Card)GetValue(CardProperty); }
+            set
             {
-                return Colors.Red;
+                SetValue(CardProperty, value);
+
+                Brush clr = Brushes.Black;
+                switch (value.Suit)
+                {
+                    case Suit.None:
+                        if (value.Number == Number.BigJoker)
+                            clr = Brushes.Red;
+                        break;
+                    case Suit.Heart:
+                    case Suit.Diamond:
+                        clr = Brushes.Red;
+                        break;
+                    default:
+                        break;
+                }
+                tbNumber.Foreground = tbSuit.Foreground = clr;
+
+                tbNumber.Text = numberStr[(int)value.Number];
+                tbSuit.Text = suitStr[(int)value.Suit];
             }
         }
 
-        public string DisplaySuit
-        {
-            get
-            {
-                return "♠";
-            }
-        }
+        // Using a DependencyProperty as the backing store for Card.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CardProperty =
+            DependencyProperty.Register("Card", typeof(Card), typeof(CardUserControl));
     }
 }

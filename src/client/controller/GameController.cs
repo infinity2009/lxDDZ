@@ -10,9 +10,9 @@ namespace lxDDZ.controller
 {
     public enum GameStatus
     {
-        Ready = 1,
-        Playing = 2,
-        Over = 3,
+        Ready = 1,      // 选地主
+        Playing = 2,    // 轮流出牌
+        Over = 3,       // 结束
     }
 
     public class GameController : IActionDelegate
@@ -33,7 +33,7 @@ namespace lxDDZ.controller
             get { return _countDown; }
             set
             {
-                lock(this.LockObj)
+                lock (this.LockObj)
                 {
                     _countDown = value;
                 }
@@ -52,7 +52,6 @@ namespace lxDDZ.controller
 
             this.CountDownTimer = new Timer(1000);
             this.CountDownTimer.Elapsed += CountDownTimer_Elapsed;
-
         }
 
         void CountDownTimer_Elapsed(object sender, ElapsedEventArgs e)
@@ -77,13 +76,21 @@ namespace lxDDZ.controller
         //! 开始
         public void start()
         {
-            this._shuffle();
+            CardBunch fullCardBunch = CardBunch.GenerateFullCard();
 
-            this._deal();
+            this._shuffle();
+            this._deal(fullCardBunch);
+            
+            // 模拟选择地主
+            this.PlayerRound.Current.Upper = true;
+            this.PlayerRound.Current.HoldingCards.AddRange(fullCardBunch);
 
             this._clearCountDown();
 
+            this.GameView.refreshHoleCards(fullCardBunch);
             this.GameView.refreshPlayer(this.PlayerRound, this.CountDown);
+
+            this.Status = GameStatus.Ready;
         }
 
         //! 结束
@@ -98,32 +105,32 @@ namespace lxDDZ.controller
         void _shuffle() { }
 
         //! 发牌
-        void _deal()
+        void _deal(CardBunch full)
         {
-            CardBunch full = CardBunch.GenerateFullCard();
+            int special = new Random().Next(4, 1000) % 48;   // 地主牌的索引
 
+            int count = 0;
             int i = 0;
             do
             {
                 Card c = full.takeOneCard();
                 this.PlayerRound[i].HoldingCards.Add(c);
+
+                if (count == special)       // 拿到地主牌的玩家
+                    this.PlayerRound.Current = this.PlayerRound[i];
+
                 if (full.Count <= 3 || c == null)
                     break;
                 i++;
                 if (i >= this.PlayerRound.Count)
                     i = 0;
+                count++;
             } while (true);
-
-            this.PlayerRound.Current = this.PlayerRound[0];
-            this.PlayerRound.Current.Upper = true;
-            this.PlayerRound.Current.HoldingCards.AddRange(full);
 
             for (int j = 0; j < this.PlayerRound.Count; j++)
             {
                 this.PlayerRound[j].HoldingCards.Sort();
             }
-
-            full.Clear();
         }
 
         //! 准备出的牌是否能出(牌型正确&&能压住上家)
@@ -163,7 +170,7 @@ namespace lxDDZ.controller
         {
             throw new NotImplementedException();
         }
-        
+
         void _moveNextPlayer()
         {
             this.PlayerRound.Current = this.PlayerRound.Current.RightPlayer;

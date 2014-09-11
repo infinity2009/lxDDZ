@@ -115,5 +115,10 @@ namespace lxDDZ
                 this.ActionDelegate.onClickCard(cardControl.Card);
             }
         }
+
+        public void refreshHoleCards(CardBunch holdCards)
+        {
+            ;
+        }
     }
 }

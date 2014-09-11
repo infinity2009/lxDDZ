@@ -13,6 +13,8 @@ namespace lxDDZ
 
         void refreshPlayerSafe(PlayerRound playerRound, int countDown);
 
+        void refreshHoleCards(CardBunch holdCards);
+
         void displayWin();
     }
 }
